@@ -27,10 +27,16 @@ export function FirstPersonControls() {
     const forward = (k["KeyW"] || k["ArrowUp"] ? 1 : 0) - (k["KeyS"] || k["ArrowDown"] ? 1 : 0);
     const strafe = (k["KeyD"] || k["ArrowRight"] ? 1 : 0) - (k["KeyA"] || k["ArrowLeft"] ? 1 : 0);
 
-    direction.current.set(strafe, 0, -forward).normalize();
+    // Derive yaw from the camera's actual forward vector (XZ plane).
+    // Using camera.rotation.y directly is unreliable: when pitch passes
+    // certain thresholds, Euler decomposition flips yaw by π, which inverts
+    // WASD when you face away from the initial direction.
+    const fwd = new THREE.Vector3();
+    camera.getWorldDirection(fwd);
+    const yawAngle = Math.atan2(-fwd.x, -fwd.z); // heading in world space
+    const yaw = new THREE.Euler(0, yawAngle, 0, "YXZ");
 
-    // Apply camera yaw to movement direction
-    const yaw = new THREE.Euler(0, camera.rotation.y, 0, "YXZ");
+    direction.current.set(strafe, 0, -forward).normalize();
     direction.current.applyEuler(yaw);
 
     velocity.current.lerp(direction.current.multiplyScalar(SPEED), 0.2);
