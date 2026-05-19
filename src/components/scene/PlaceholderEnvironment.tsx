@@ -58,7 +58,7 @@ export function PlaceholderEnvironment() {
         onClick={(e) => {
           e.stopPropagation();
           const m = e.object as Mesh;
-          (m.material as { color: { set: (c: string) => void } }).color.set(
+          (m.material as unknown as { color: { set: (c: string) => void } }).color.set(
             `hsl(${Math.random() * 360}, 70%, 55%)`,
           );
         }}
