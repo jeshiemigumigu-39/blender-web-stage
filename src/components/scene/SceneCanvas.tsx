@@ -3,6 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
 import { FirstPersonControls } from "./FirstPersonControls";
 import { PlaceholderEnvironment } from "./PlaceholderEnvironment";
+import { HotspotModel } from "./HotspotModel";
+import { SceneErrorBoundary } from "./SceneErrorBoundary";
 
 export function SceneCanvas() {
   // Avoid SSR / hydration issues — only mount Three on the client.
