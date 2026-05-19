@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Toaster } from "@/components/ui/sonner";
 import { SceneCanvas } from "@/components/scene/SceneCanvas";
 
 export const Route = createFileRoute("/scene")({
