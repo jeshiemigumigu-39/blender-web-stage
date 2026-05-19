@@ -24,6 +24,7 @@ export const Route = createFileRoute("/scene")({
 
 function ScenePage() {
   const [locked, setLocked] = useState(false);
+  const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
 
   useEffect(() => {
     const onChange = () => setLocked(!!document.pointerLockElement);
@@ -33,9 +34,8 @@ function ScenePage() {
 
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-background">
-      <SceneCanvas />
+      <SceneCanvas onHoverLabel={setHoveredLabel} />
       <Toaster position="bottom-center" richColors />
-
 
       {/* HUD */}
       <div className="pointer-events-none absolute left-4 top-4 z-10">
@@ -62,10 +62,18 @@ function ScenePage() {
         </div>
       )}
 
-      {/* Crosshair */}
+      {/* Crosshair + tooltip */}
       {locked && (
         <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-          <div className="h-1.5 w-1.5 rounded-full bg-foreground/70" />
+          {/* Tooltip above crosshair */}
+          {hoveredLabel && (
+            <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2.5 py-1 text-xs font-medium text-white shadow-lg backdrop-blur-sm">
+              {hoveredLabel}
+              <span className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-black/80" />
+            </div>
+          )}
+          {/* White crosshair */}
+          <div className="h-1.5 w-1.5 rounded-full bg-white/90 shadow-[0_0_4px_rgba(0,0,0,0.6)]" />
         </div>
       )}
     </main>

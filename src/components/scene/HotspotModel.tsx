@@ -7,6 +7,8 @@ import { HOTSPOTS, type HotspotHandlers } from "./hotspots";
 type Props = {
   /** Path under /public, e.g. "/models/scene.glb" */
   url?: string;
+  /** Called when a hotspot is hovered so the UI can show a tooltip. */
+  onHoverLabel?: (label: string | null) => void;
 };
 
 /**
@@ -16,7 +18,7 @@ type Props = {
  * Drop your model at `public/models/scene.glb` and the hotspots wire up
  * automatically. Add/rename entries in HOTSPOTS to expose more interactions.
  */
-export function HotspotModel({ url = "/models/scene.glb" }: Props) {
+export function HotspotModel({ url = "/models/scene.glb", onHoverLabel }: Props) {
   const { scene } = useGLTF(url);
 
   // Track which descendants are wired so we can clean up on unmount/HMR.
@@ -99,6 +101,7 @@ export function HotspotModel({ url = "/models/scene.glb" }: Props) {
         document.body.style.cursor = "pointer";
         setHighlight(hit.name, true);
         hit.cfg.onPointerOver?.(hit.name);
+        onHoverLabel?.(hit.cfg.label);
       }}
       onPointerOut={(e: ThreeEvent<PointerEvent>) => {
         const hit = findHotspot(e);
@@ -106,6 +109,7 @@ export function HotspotModel({ url = "/models/scene.glb" }: Props) {
         document.body.style.cursor = "";
         setHighlight(hit.name, false);
         hit.cfg.onPointerOut?.(hit.name);
+        onHoverLabel?.(null);
       }}
       onClick={(e: ThreeEvent<MouseEvent>) => {
         const hit = findHotspot(e);

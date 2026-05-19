@@ -6,7 +6,11 @@ import { PlaceholderEnvironment } from "./PlaceholderEnvironment";
 import { HotspotModel } from "./HotspotModel";
 import { SceneErrorBoundary } from "./SceneErrorBoundary";
 
-export function SceneCanvas() {
+type SceneCanvasProps = {
+  onHoverLabel?: (label: string | null) => void;
+};
+
+export function SceneCanvas({ onHoverLabel }: SceneCanvasProps = {}) {
   // Avoid SSR / hydration issues — only mount Three on the client.
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -38,7 +42,7 @@ export function SceneCanvas() {
         {/* Renders /models/scene.glb with clickable hotspots from ./hotspots.ts.
             Falls back to the placeholder until you drop your .glb in /public/models. */}
         <SceneErrorBoundary fallback={<PlaceholderEnvironment />}>
-          <HotspotModel />
+          <HotspotModel onHoverLabel={onHoverLabel} />
         </SceneErrorBoundary>
       </Suspense>
       <FirstPersonControls />
