@@ -1,26 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-xl text-center">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground">
+          Interactive 3D Environment
+        </h1>
+        <p className="mt-4 text-muted-foreground">
+          A first-person walkable scene built with React Three Fiber. Swap{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm">public/models/scene.glb</code>{" "}
+          to drop in your Blender export.
+        </p>
+        <div className="mt-8">
+          <Link
+            to="/scene"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Enter the scene →
+          </Link>
+        </div>
+      </div>
+    </main>
+  );
 }
