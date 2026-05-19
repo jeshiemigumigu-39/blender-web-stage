@@ -34,6 +34,8 @@ function ScenePage() {
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-background">
       <SceneCanvas />
+      <Toaster position="bottom-center" richColors />
+
 
       {/* HUD */}
       <div className="pointer-events-none absolute left-4 top-4 z-10">
