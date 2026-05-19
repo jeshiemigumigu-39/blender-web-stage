@@ -3,6 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
 import { FirstPersonControls } from "./FirstPersonControls";
 import { PlaceholderEnvironment } from "./PlaceholderEnvironment";
+import { HotspotModel } from "./HotspotModel";
+import { SceneErrorBoundary } from "./SceneErrorBoundary";
 
 export function SceneCanvas() {
   // Avoid SSR / hydration issues — only mount Three on the client.
@@ -33,7 +35,11 @@ export function SceneCanvas() {
         shadow-mapSize-height={2048}
       />
       <Suspense fallback={null}>
-        <PlaceholderEnvironment />
+        {/* Renders /models/scene.glb with clickable hotspots from ./hotspots.ts.
+            Falls back to the placeholder until you drop your .glb in /public/models. */}
+        <SceneErrorBoundary fallback={<PlaceholderEnvironment />}>
+          <HotspotModel />
+        </SceneErrorBoundary>
       </Suspense>
       <FirstPersonControls />
     </Canvas>
